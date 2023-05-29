@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>Numeral system converter</title>
+
+<!-- Javascript -->
+<script type="text/javascript">
+	var g_mode = 10;
+	var g_dec_number = "-";
+	var g_hex_number = "-";
+	var g_bin_number = "-";
+
+	function refresh_fields(){
+		document.getElementById("dec_field").innerHTML= g_dec_number;
+		document.getElementById("hex_field").innerHTML= g_hex_number;
+		document.getElementById("bin_field").innerHTML= g_bin_number.replace(/(?=(?:.{8})*$)/g, ' ');
+	}
+
+	function reset_fileds(){
+		g_dec_number = "-";
+		g_hex_number = "-";
+		g_bin_number = "-";
+		refresh_fields();
+	}
+
+	function dec_to_hex(dec_number){
+		return Number(dec_number).toString(16);
+	}
+
+	function hex_to_dec(hex_number){
+		return parseInt(hex_number, 16);
+	}
+
+	function dec_to_bin(dec_number){
+		return Number(dec_number).toString(2);
+	}
+
+	function bin_to_dec(bin_number){
+		return parseInt(bin_number, 2);
+	}
+
+	function generate_data_row(mode){
+		switch(mode){
+			case 2:
+				document.getElementById("dec_label").className = "unactive_row";
+				document.getElementById("hex_label").className = "unactive_row";
+				document.getElementById("bin_label").className = "active_row";
+				break;
+			case 10:
+				document.getElementById("dec_label").className = "active_row";
+				document.getElementById("hex_label").className = "unactive_row";
+				document.getElementById("bin_label").className = "unactive_row";
+				break;
+			case 16:
+				document.getElementById("dec_label").className = "unactive_row";
+				document.getElementById("hex_label").className = "active_row";
+				document.getElementById("bin_label").className = "unactive_row";
+				break;
+		}
+	}
+
+	function generate_keyboard_row(mode){
+		switch(mode){
+			case 2:
+				var bin_keypad 
+				= "<tr><td class=\"button\" width=\"50%\" onclick=\"key_press('0')\">0</td>"
+				+ "<td class=\"button\" width=\"50%\" onclick=\"key_press(\'1\')\">1</td></tr>"
+				+ "<tr><td class=\"button\" onclick=\"reset_fileds()\">AC</td>"
+				+ "<td class=\"button\" onclick=\"key_press(\'DEL\')\">DEL</td></tr>";
+				document.getElementById("keypad").innerHTML = bin_keypad;
+				break;
+			case 10:
+				var dec_keypad
+				="<tr><td class=\"button\" onclick=\"key_press(7)\">7</td>"
+				+ "<td class=\"button\" onclick=\"key_press(8)\">8</td>"
+				+ "<td class=\"button\" onclick=\"key_press(9)\">9</td></tr>"
+				+ "<tr><td class=\"button\" onclick=\"key_press(4)\">4</td>"
+				+ "<td class=\"button\" onclick=\"key_press(5)\">5</td>"
+				+ "<td class=\"button\" onclick=\"key_press(6)\">6</td></tr>"
+				+ "<tr><td class=\"button\" onclick=\"key_press(1)\">1</td>"
+				+ "<td class=\"button\" onclick=\"key_press(2)\">2</td>"
+				+ "<td class=\"button\" onclick=\"key_press(3)\">3</td></tr>"
+				+ "<tr><td class=\"button\" onclick=\"reset_fileds()\">AC</td>"
+				+ "<td class=\"button\" onclick=\"key_press(0)\">0</td>"
+				+ "<td class=\"button\" onclick=\"key_press('DEL')\">DEL</td></tr>";
+				document.getElementById("keypad").innerHTML = dec_keypad;
+				break;
+			case 16:
+				var hex_keypad
+				= "<tr><td class=\"button\" onclick=\"key_press('D')\">D</td>"
+				+ "<td class=\"button\" onclick=\"key_press('E')\">E</td>"
+				+ "<td class=\"button\" onclick=\"key_press('F')\">F</td></tr>" 
+				+ "<tr><td class=\"button\" onclick=\"key_press('A')\">A</td>"
+				+ "<td class=\"button\" onclick=\"key_press('B')\">B</td>"
+				+ "<td class=\"button\" onclick=\"key_press('C')\">C</td></tr>"
+				+ "<tr><td class=\"button\" onclick=\"key_press(7)\">7</td>"
+				+ "<td class=\"button\" onclick=\"key_press(8)\">8</td>"
+				+ "<td class=\"button\" onclick=\"key_press(9)\">9</td></tr>"
+				+ "<tr><td class=\"button\" onclick=\"key_press(4)\">4</td>"
+				+ "<td class=\"button\" onclick=\"key_press(5)\">5</td>"
+				+ "<td class=\"button\" onclick=\"key_press(6)\">6</td></tr>"
+				+ "<tr><td class=\"button\" onclick=\"key_press(1)\">1</td>"
+				+ "<td class=\"button\" onclick=\"key_press(2)\">2</td>"
+				+ "<td class=\"button\" onclick=\"key_press(3)\">3</td></tr>"
+				+ "<tr><td class=\"button\" onclick=\"reset_fileds()\">AC</td>"
+				+ "<td class=\"button\" onclick=\"key_press(0)\">0</td>"
+				+ "<td class=\"button\" onclick=\"key_press('DEL')\">DEL</td></tr>";
+				document.getElementById("keypad").innerHTML = hex_keypad;
+				break;
+		}
+	}
+
+	function change_mode(mode){
+		g_mode = mode;
+		generate_data_row(mode);
+		generate_keyboard_row(mode);
+	}
+
+	function key_press(pressed_key){
+		switch(g_mode){
+			case 2:
+				if (pressed_key == "DEL"){
+					g_bin_number = g_bin_number.slice(0,-1);
+					if (g_bin_number == "") {g_bin_number = "-";};
+				}
+				else {
+					if (g_bin_number == "-"){g_bin_number = "";};
+					g_bin_number+= pressed_key;
+				}
+				g_dec_number = bin_to_dec(g_bin_number);
+				g_hex_number = dec_to_hex(g_dec_number);
+				break;
+			case 10:
+				if (pressed_key == "DEL"){
+					g_dec_number = g_dec_number.slice(0,-1);
+					if (g_dec_number == "") {g_dec_number = "-";};
+				}
+				else {
+					if (g_dec_number == "-"){g_dec_number = "";};
+					g_dec_number+= pressed_key;
+				}
+				g_hex_number = dec_to_hex(g_dec_number);
+				g_bin_number = dec_to_bin(g_dec_number);
+				break;
+			case 16:
+				if (pressed_key == "DEL"){
+					g_hex_number = g_hex_number.slice(0,-1);
+					if (g_hex_number == "") {g_hex_number = "-";};
+				}
+				else {
+					if (g_hex_number == "-"){g_hex_number = "";};
+					g_hex_number+= pressed_key;
+				}
+				g_dec_number = hex_to_dec(g_hex_number);
+				g_bin_number = dec_to_bin(g_dec_number);
+				break;
+		}
+
+		refresh_fields();
+	}
+
+	function on_load(){
+		change_mode(10);
+	}
+</script>
+
+<!-- CSS -->
+<style type="text/css">
+	body { 
+		background: #FFFFFF;
+		margin: 0;
+		overscroll-behavior-y: none;
+	}
+
+	.header {
+		width: 98%;
+		padding: 1%;
+		
+		font-family: arial;
+		font-size: 23px;
+
+		background: #666666;
+		color: #FFFFFF;
+	}
+
+	.row {
+		font-family: arial;
+		font-size: 23px;
+
+		color: #000000;
+		border: 0px solid #C6C6C8;
+		border-bottom-width: 1px;
+	}
+
+	.active_row {
+		font-family: arial;
+		font-size: 23px;
+		color: #FFFFFF;
+		text-align: center;
+
+		background: orange;
+		width: 10%;
+		border-radius: 5%;
+	}
+
+	.unactive_row {
+		font-family: arial;
+		font-size: 23px;
+		color: #2D323A;
+		text-align: center;
+
+		width: 10%;
+	}
+
+	.button {
+		font-family: arial;
+		font-size: 23px;
+		color: #2D323A;
+		text-align: center;
+
+		background: #E9F0F4;
+		width: 33%;
+		height: 60px;
+
+		margin: 20px;
+	}
+</style>
+
+</head>
+<body onload="javascript:on_load()">
+
+<!-- Header -->
+<div id="header" class="header">
+	<table valign="middle" width="100%">
+		<tr>
+			<td width="100%"><div id="title" style="margin-left: 3%;">Numeral system converter</div></td>
+		</tr>
+	</table>
+</div>
+
+<!-- numbers table -->
+<table width="100%" cellspacing="10">
+<tr width="100%">
+	<td id="dec_label" onclick="change_mode(10)" class="active_row">DEC</td>
+	<td id="dec_field" align="right" class="row">-</td>
+</tr>
+<tr>
+	<td id="hex_label" onclick="change_mode(16)" class="unactive_row">HEX</td>
+	<td id="hex_field" align="right"class="row">-</td>
+</tr>
+<tr>
+	<td  id="bin_label" onclick="change_mode(2)" class="unactive_row">BIN</td>
+	<td  id="bin_field" align="right" class="row">-</td>
+</tr>
+</table>
+
+<!-- keyboard table -->
+<table width="100%" cellspacing="10" id="keypad">
+
+</table>
+
+</body>
+</html>
