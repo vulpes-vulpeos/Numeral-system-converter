@@ -10,9 +10,9 @@
 <!-- Javascript -->
 <script type="text/javascript">
 	var g_mode = 10;
-	var g_dec_number = "-";
-	var g_hex_number = "-";
-	var g_bin_number = "-";
+	var g_dec_number = "0";
+	var g_hex_number = "0";
+	var g_bin_number = "0";
 
 	function refresh_fields(){
 		document.getElementById("dec_field").innerHTML= g_dec_number;
@@ -21,9 +21,9 @@
 	}
 
 	function reset_fileds(){
-		g_dec_number = "-";
-		g_hex_number = "-";
-		g_bin_number = "-";
+		g_dec_number = "0";
+		g_hex_number = "0";
+		g_bin_number = "0";
 		refresh_fields();
 	}
 
@@ -69,8 +69,8 @@
 				var bin_keypad 
 				= "<tr><td class=\"button\" width=\"50%\" onclick=\"key_press('0')\">0</td>"
 				+ "<td class=\"button\" width=\"50%\" onclick=\"key_press(\'1\')\">1</td></tr>"
-				+ "<tr><td class=\"button\" onclick=\"reset_fileds()\">AC</td>"
-				+ "<td class=\"button\" onclick=\"key_press(\'DEL\')\">DEL</td></tr>";
+				+ "<tr><td class=\"button button_ac\" onclick=\"reset_fileds()\">AC</td>"
+				+ "<td class=\"button button_del\" onclick=\"key_press(\'DEL\')\">DEL</td></tr>";
 				document.getElementById("keypad").innerHTML = bin_keypad;
 				break;
 			case 10:
@@ -84,9 +84,9 @@
 				+ "<tr><td class=\"button\" onclick=\"key_press(1)\">1</td>"
 				+ "<td class=\"button\" onclick=\"key_press(2)\">2</td>"
 				+ "<td class=\"button\" onclick=\"key_press(3)\">3</td></tr>"
-				+ "<tr><td class=\"button\" onclick=\"reset_fileds()\">AC</td>"
+				+ "<tr><td class=\"button button_ac\" onclick=\"reset_fileds()\">AC</td>"
 				+ "<td class=\"button\" onclick=\"key_press(0)\">0</td>"
-				+ "<td class=\"button\" onclick=\"key_press('DEL')\">DEL</td></tr>";
+				+ "<td class=\"button button_del\" onclick=\"key_press('DEL')\">DEL</td></tr>";
 				document.getElementById("keypad").innerHTML = dec_keypad;
 				break;
 			case 16:
@@ -106,9 +106,9 @@
 				+ "<tr><td class=\"button\" onclick=\"key_press(1)\">1</td>"
 				+ "<td class=\"button\" onclick=\"key_press(2)\">2</td>"
 				+ "<td class=\"button\" onclick=\"key_press(3)\">3</td></tr>"
-				+ "<tr><td class=\"button\" onclick=\"reset_fileds()\">AC</td>"
+				+ "<tr><td class=\"button button_ac\" onclick=\"reset_fileds()\">AC</td>"
 				+ "<td class=\"button\" onclick=\"key_press(0)\">0</td>"
-				+ "<td class=\"button\" onclick=\"key_press('DEL')\">DEL</td></tr>";
+				+ "<td class=\"button button_del\" onclick=\"key_press('DEL')\">DEL</td></tr>";
 				document.getElementById("keypad").innerHTML = hex_keypad;
 				break;
 		}
@@ -125,10 +125,10 @@
 			case 2:
 				if (pressed_key == "DEL"){
 					g_bin_number = g_bin_number.slice(0,-1);
-					if (g_bin_number == "") {g_bin_number = "-";};
+					if (g_bin_number == "") {g_bin_number = "0";};
 				}
 				else {
-					if (g_bin_number == "-"){g_bin_number = "";};
+					if (g_bin_number == "0"){g_bin_number = "";};
 					g_bin_number+= pressed_key;
 				}
 				g_dec_number = bin_to_dec(g_bin_number);
@@ -137,10 +137,10 @@
 			case 10:
 				if (pressed_key == "DEL"){
 					g_dec_number = g_dec_number.slice(0,-1);
-					if (g_dec_number == "") {g_dec_number = "-";};
+					if (g_dec_number == "") {g_dec_number = "0";};
 				}
 				else {
-					if (g_dec_number == "-"){g_dec_number = "";};
+					if (g_dec_number == "0"){g_dec_number = "";};
 					g_dec_number+= pressed_key;
 				}
 				g_hex_number = dec_to_hex(g_dec_number);
@@ -149,10 +149,10 @@
 			case 16:
 				if (pressed_key == "DEL"){
 					g_hex_number = g_hex_number.slice(0,-1);
-					if (g_hex_number == "") {g_hex_number = "-";};
+					if (g_hex_number == "") {g_hex_number = "0";};
 				}
 				else {
-					if (g_hex_number == "-"){g_hex_number = "";};
+					if (g_hex_number == "0"){g_hex_number = "";};
 					g_hex_number+= pressed_key;
 				}
 				g_dec_number = hex_to_dec(g_hex_number);
@@ -228,6 +228,16 @@
 
 		margin: 20px;
 	}
+
+	.button_ac {
+		color: #F6444E;
+		background: #F8ECED;
+	}
+
+	.button_del {
+		color: #2D323A;
+		background: #eeeeee;
+	}
 </style>
 
 </head>
@@ -246,15 +256,15 @@
 <table width="100%" cellspacing="10">
 <tr width="100%">
 	<td id="dec_label" onclick="change_mode(10)" class="active_row">DEC</td>
-	<td id="dec_field" align="right" class="row">-</td>
+	<td id="dec_field" align="right" class="row">0</td>
 </tr>
 <tr>
 	<td id="hex_label" onclick="change_mode(16)" class="unactive_row">HEX</td>
-	<td id="hex_field" align="right"class="row">-</td>
+	<td id="hex_field" align="right"class="row">0</td>
 </tr>
 <tr>
 	<td  id="bin_label" onclick="change_mode(2)" class="unactive_row">BIN</td>
-	<td  id="bin_field" align="right" class="row">-</td>
+	<td  id="bin_field" align="right" class="row">0</td>
 </tr>
 </table>
 
