@@ -70,7 +70,7 @@
 				= "<tr><td class=\"button\" width=\"50%\" onclick=\"key_press('0')\">0</td>"
 				+ "<td class=\"button\" width=\"50%\" onclick=\"key_press(\'1\')\">1</td></tr>"
 				+ "<tr><td class=\"button button_ac\" onclick=\"reset_fileds()\">AC</td>"
-				+ "<td class=\"button button_del\" onclick=\"key_press(\'DEL\')\">DEL</td></tr>";
+				+ "<td class=\"button button_del\" onclick=\"key_press(\'DEL\')\">⌫</td></tr>";
 				document.getElementById("keypad").innerHTML = bin_keypad;
 				break;
 			case 10:
@@ -86,7 +86,7 @@
 				+ "<td class=\"button\" onclick=\"key_press(3)\">3</td></tr>"
 				+ "<tr><td class=\"button button_ac\" onclick=\"reset_fileds()\">AC</td>"
 				+ "<td class=\"button\" onclick=\"key_press(0)\">0</td>"
-				+ "<td class=\"button button_del\" onclick=\"key_press('DEL')\">DEL</td></tr>";
+				+ "<td class=\"button button_del\" onclick=\"key_press('DEL')\">⌫</td></tr>";
 				document.getElementById("keypad").innerHTML = dec_keypad;
 				break;
 			case 16:
@@ -108,7 +108,7 @@
 				+ "<td class=\"button\" onclick=\"key_press(3)\">3</td></tr>"
 				+ "<tr><td class=\"button button_ac\" onclick=\"reset_fileds()\">AC</td>"
 				+ "<td class=\"button\" onclick=\"key_press(0)\">0</td>"
-				+ "<td class=\"button button_del\" onclick=\"key_press('DEL')\">DEL</td></tr>";
+				+ "<td class=\"button button_del\" onclick=\"key_press('DEL')\">⌫</td></tr>";
 				document.getElementById("keypad").innerHTML = hex_keypad;
 				break;
 		}
@@ -216,27 +216,36 @@
 		width: 10%;
 	}
 
+	.keypad {
+		background: #CFD2D7;
+	}
+
 	.button {
 		font-family: arial;
 		font-size: 23px;
-		color: #2D323A;
+		color: black;
 		text-align: center;
 
-		background: #E9F0F4;
+		background: white;
 		width: 33%;
 		height: 60px;
+		border-radius: 10px;
+		border-bottom: 2px solid #87888C;
 
 		margin: 20px;
 	}
 
 	.button_ac {
-		color: #F6444E;
-		background: #F8ECED;
+		color: black;
+		background: #CFD2D7;
+		border-bottom: 0px;
 	}
 
 	.button_del {
-		color: #2D323A;
-		background: #eeeeee;
+		font-size: 28px;
+		color: black;
+		background: #CFD2D7;
+		border-bottom: 0px;
 	}
 </style>
 
@@ -269,7 +278,7 @@
 </table>
 
 <!-- keyboard table -->
-<table width="100%" cellspacing="10" id="keypad" style="position: absolute; bottom:0px; padding-bottom: env(safe-area-inset-bottom);">
+<table width="100%" cellspacing="10" id="keypad" class="keypad" style="position: absolute; bottom:0px; padding-bottom: env(safe-area-inset-bottom);">
 
 </table>
 
